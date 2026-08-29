@@ -1,5 +1,7 @@
 # Uni-mHC
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22163748.svg)](https://doi.org/10.5281/zenodo.22163748)
+
 PyTorch implementation of Uni-mHC (Unistochastic Manifold-Constrained
 Hyper-Connections) and its integration into nanoGPT.
 
@@ -84,3 +86,21 @@ anonymous draft, kept for provenance).
 Author: DDDMUC (暮迟), Independent Researcher.
 License: MIT for this code; `nanoGPT/` contains Apache-2.0 code from
 karpathy/nanoGPT (see `nanoGPT/LICENSE`).
+
+
+## Cite
+
+DDDMUC (2026). *Uni-mHC: Unistochastic Manifold-Constrained Hyper-Connections with
+Quantum-Interference Disentanglement*. Zenodo. [DOI: 10.5281/zenodo.22163748](https://doi.org/10.5281/zenodo.22163748)
+
+```bibtex
+@misc{dddmuc_2026_unimhc,
+  author    = {DDDMUC},
+  title     = {Uni-mHC: Unistochastic Manifold-Constrained Hyper-Connections with
+               Quantum-Interference Disentanglement},
+  year      = {2026},
+  publisher = {Zenodo},
+  doi       = {10.5281/zenodo.22163748},
+  url       = {https://doi.org/10.5281/zenodo.22163748}
+}
+```
