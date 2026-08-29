@@ -1,0 +1,98 @@
+[
+  {
+    "block": 0,
+    "stage": "attn",
+    "row_err": 0.0004668235778808594,
+    "col_err": 0.0004692673683166504,
+    "min_entry": 6.405814767518336e-11,
+    "signed": false
+  },
+  {
+    "block": 0,
+    "stage": "mlp",
+    "row_err": 0.00041961669921875,
+    "col_err": 0.00039958953857421875,
+    "min_entry": 6.556658718182007e-06,
+    "signed": false
+  },
+  {
+    "block": 1,
+    "stage": "attn",
+    "row_err": 0.0010526180267333984,
+    "col_err": 0.0010524988174438477,
+    "min_entry": 3.3886735195665096e-08,
+    "signed": false
+  },
+  {
+    "block": 1,
+    "stage": "mlp",
+    "row_err": 0.0008046627044677734,
+    "col_err": 0.0008035898208618164,
+    "min_entry": 3.3273902317887405e-06,
+    "signed": false
+  },
+  {
+    "block": 2,
+    "stage": "attn",
+    "row_err": 0.0012325048446655273,
+    "col_err": 0.0012325048446655273,
+    "min_entry": 4.904875368083594e-06,
+    "signed": false
+  },
+  {
+    "block": 2,
+    "stage": "mlp",
+    "row_err": 0.0007300972938537598,
+    "col_err": 0.0007451176643371582,
+    "min_entry": 4.941250608681003e-07,
+    "signed": false
+  },
+  {
+    "block": 3,
+    "stage": "attn",
+    "row_err": 0.0006910562515258789,
+    "col_err": 0.000681757926940918,
+    "min_entry": 4.827121480310836e-10,
+    "signed": false
+  },
+  {
+    "block": 3,
+    "stage": "mlp",
+    "row_err": 0.001337885856628418,
+    "col_err": 0.0013377666473388672,
+    "min_entry": 3.2539035355050316e-10,
+    "signed": false
+  },
+  {
+    "block": 4,
+    "stage": "attn",
+    "row_err": 0.0008504986763000488,
+    "col_err": 0.000850975513458252,
+    "min_entry": 5.937859555160685e-07,
+    "signed": false
+  },
+  {
+    "block": 4,
+    "stage": "mlp",
+    "row_err": 0.0009496808052062988,
+    "col_err": 0.000965118408203125,
+    "min_entry": 1.7410169306231182e-08,
+    "signed": false
+  },
+  {
+    "block": 5,
+    "stage": "attn",
+    "row_err": 0.0010066032409667969,
+    "col_err": 0.0010066032409667969,
+    "min_entry": 2.720952976820179e-11,
+    "signed": false
+  },
+  {
+    "block": 5,
+    "stage": "mlp",
+    "row_err": 0.0006039738655090332,
+    "col_err": 0.0006034970283508301,
+    "min_entry": 1.2895705481241748e-07,
+    "signed": false
+  }
+]

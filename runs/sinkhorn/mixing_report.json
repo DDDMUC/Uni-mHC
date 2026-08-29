@@ -1,0 +1,98 @@
+[
+  {
+    "block": 0,
+    "stage": "attn",
+    "row_err": 0.0,
+    "col_err": 0.0,
+    "min_entry": 0.09145749360322952,
+    "signed": false
+  },
+  {
+    "block": 0,
+    "stage": "mlp",
+    "row_err": 0.0,
+    "col_err": 0.0,
+    "min_entry": 0.13837644457817078,
+    "signed": false
+  },
+  {
+    "block": 1,
+    "stage": "attn",
+    "row_err": 0.0,
+    "col_err": 0.0,
+    "min_entry": 0.09224691241979599,
+    "signed": false
+  },
+  {
+    "block": 1,
+    "stage": "mlp",
+    "row_err": 0.0,
+    "col_err": 0.0,
+    "min_entry": 0.08987191319465637,
+    "signed": false
+  },
+  {
+    "block": 2,
+    "stage": "attn",
+    "row_err": 0.0,
+    "col_err": 0.0,
+    "min_entry": 0.08760396391153336,
+    "signed": false
+  },
+  {
+    "block": 2,
+    "stage": "mlp",
+    "row_err": 0.0,
+    "col_err": 0.0,
+    "min_entry": 0.13059106469154358,
+    "signed": false
+  },
+  {
+    "block": 3,
+    "stage": "attn",
+    "row_err": 0.0,
+    "col_err": 0.0,
+    "min_entry": 0.10185608267784119,
+    "signed": false
+  },
+  {
+    "block": 3,
+    "stage": "mlp",
+    "row_err": 0.0,
+    "col_err": 0.0,
+    "min_entry": 0.08941074460744858,
+    "signed": false
+  },
+  {
+    "block": 4,
+    "stage": "attn",
+    "row_err": 0.0,
+    "col_err": 0.0,
+    "min_entry": 0.08333047479391098,
+    "signed": false
+  },
+  {
+    "block": 4,
+    "stage": "mlp",
+    "row_err": 0.0,
+    "col_err": 0.0,
+    "min_entry": 0.11851956695318222,
+    "signed": false
+  },
+  {
+    "block": 5,
+    "stage": "attn",
+    "row_err": 0.0,
+    "col_err": 0.0,
+    "min_entry": 0.08058769255876541,
+    "signed": false
+  },
+  {
+    "block": 5,
+    "stage": "mlp",
+    "row_err": 0.0,
+    "col_err": 0.0,
+    "min_entry": 0.09342842549085617,
+    "signed": false
+  }
+]

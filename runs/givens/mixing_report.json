@@ -1,0 +1,98 @@
+[
+  {
+    "block": 0,
+    "stage": "attn",
+    "row_err": 0.0,
+    "col_err": 0.0,
+    "min_entry": 0.0,
+    "signed": true
+  },
+  {
+    "block": 0,
+    "stage": "mlp",
+    "row_err": 0.0,
+    "col_err": 1.1920928955078125e-07,
+    "min_entry": 0.000568116083741188,
+    "signed": true
+  },
+  {
+    "block": 1,
+    "stage": "attn",
+    "row_err": 1.1920928955078125e-07,
+    "col_err": 1.1920928955078125e-07,
+    "min_entry": 5.5020555009832606e-06,
+    "signed": true
+  },
+  {
+    "block": 1,
+    "stage": "mlp",
+    "row_err": 1.1920928955078125e-07,
+    "col_err": 1.1920928955078125e-07,
+    "min_entry": 0.00014437682693824172,
+    "signed": true
+  },
+  {
+    "block": 2,
+    "stage": "attn",
+    "row_err": 1.1920928955078125e-07,
+    "col_err": 1.1920928955078125e-07,
+    "min_entry": 4.564677146845497e-05,
+    "signed": true
+  },
+  {
+    "block": 2,
+    "stage": "mlp",
+    "row_err": 1.1920928955078125e-07,
+    "col_err": 1.1920928955078125e-07,
+    "min_entry": 0.0001897149923024699,
+    "signed": true
+  },
+  {
+    "block": 3,
+    "stage": "attn",
+    "row_err": 1.1920928955078125e-07,
+    "col_err": 1.7881393432617188e-07,
+    "min_entry": 5.811660594190471e-05,
+    "signed": true
+  },
+  {
+    "block": 3,
+    "stage": "mlp",
+    "row_err": 1.1920928955078125e-07,
+    "col_err": 1.1920928955078125e-07,
+    "min_entry": 0.0024308066349476576,
+    "signed": true
+  },
+  {
+    "block": 4,
+    "stage": "attn",
+    "row_err": 1.1920928955078125e-07,
+    "col_err": 2.384185791015625e-07,
+    "min_entry": 0.00014719170576427132,
+    "signed": true
+  },
+  {
+    "block": 4,
+    "stage": "mlp",
+    "row_err": 1.7881393432617188e-07,
+    "col_err": 1.7881393432617188e-07,
+    "min_entry": 0.004422942642122507,
+    "signed": true
+  },
+  {
+    "block": 5,
+    "stage": "attn",
+    "row_err": 2.384185791015625e-07,
+    "col_err": 2.384185791015625e-07,
+    "min_entry": 0.0016632460756227374,
+    "signed": true
+  },
+  {
+    "block": 5,
+    "stage": "mlp",
+    "row_err": 5.960464477539063e-08,
+    "col_err": 5.960464477539063e-08,
+    "min_entry": 0.0025889480020850897,
+    "signed": true
+  }
+]
