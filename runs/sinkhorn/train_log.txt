@@ -1,0 +1,20 @@
+[04:20:47] start: mixer=sinkhorn n_streams=4 params=10.75M device=cuda resume_iter=0 max_iters=1000
+[04:20:59] iter     0: train 4.3449, val 4.3472, lr 9.90e-06
+[04:21:54] iter   100: train 2.4460, val 2.4601, lr 1.00e-03
+[04:22:36] iter   200: checkpoint saved (543 ms/iter avg)
+[04:22:46] iter   200: train 2.2085, val 2.2511, lr 9.73e-04
+[04:23:40] iter   300: train 1.8731, val 1.9936, lr 8.95e-04
+[04:24:21] iter   400: checkpoint saved (535 ms/iter avg)
+[04:24:33] iter   400: train 1.6772, val 1.8448, lr 7.75e-04
+[04:25:26] iter   500: train 1.5542, val 1.7285, lr 6.28e-04
+[04:26:08] iter   600: checkpoint saved (535 ms/iter avg)
+[04:26:19] iter   600: train 1.4573, val 1.6498, lr 4.72e-04
+[04:27:10] iter   700: train 1.3866, val 1.6028, lr 3.25e-04
+[04:27:52] iter   800: checkpoint saved (532 ms/iter avg)
+[04:28:04] iter   800: train 1.3247, val 1.5447, lr 2.05e-04
+[04:28:59] iter   900: train 1.2842, val 1.5236, lr 1.27e-04
+[04:29:52] iter   999: train 1.2625, val 1.5066, lr 1.00e-04
+[04:29:53] iter  1000: checkpoint saved (546 ms/iter avg)
+[04:30:04] iter  1000: train 1.2591, val 1.5067, lr 1.00e-04
+[04:30:04] done: reached max_iters=1000, best_val=1.5066, final ckpt saved. total 557.4s this session
+[04:30:05] mixing report: worst row_err=0.00e+00 over 12 mixers -> mixing_report.json

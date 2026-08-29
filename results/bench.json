@@ -1,0 +1,52 @@
+{
+  "n_streams": 4,
+  "device": "cuda",
+  "precision": {
+    "UniMHC (Ours)": {
+      "row_err": 4.76837158203125e-07,
+      "col_err": 7.152557373046875e-07,
+      "min_entry": 9.017416005008272e-07,
+      "n_params": 36
+    },
+    "GivensMHC (Ours-Fast)": {
+      "row_err": 3.5762786865234375e-07,
+      "col_err": 3.5762786865234375e-07,
+      "min_entry": 1.2951743677547256e-08,
+      "n_params": 10
+    },
+    "Sinkhorn mHC (Baseline)": {
+      "row_err": 1.1920928955078125e-07,
+      "col_err": 0.00499415397644043,
+      "min_entry": 9.676493937149644e-05,
+      "n_params": 16
+    },
+    "Orthostochastic (Baseline)": {
+      "row_err": 2.384185791015625e-07,
+      "col_err": 2.384185791015625e-07,
+      "min_entry": 2.515070995912083e-08,
+      "n_params": 16
+    }
+  },
+  "latency": {
+    "UniMHC (Ours)": {
+      "total_ms": 10565.5,
+      "per_iter_ms": 10.565,
+      "peak_mem_mb": 352.3
+    },
+    "GivensMHC (Ours-Fast)": {
+      "total_ms": 10849.5,
+      "per_iter_ms": 10.85,
+      "peak_mem_mb": 352.3
+    },
+    "Sinkhorn mHC (Baseline)": {
+      "total_ms": 12925.3,
+      "per_iter_ms": 12.925,
+      "peak_mem_mb": 352.3
+    },
+    "Orthostochastic (Baseline)": {
+      "total_ms": 11234.6,
+      "per_iter_ms": 11.235,
+      "peak_mem_mb": 352.3
+    }
+  }
+}

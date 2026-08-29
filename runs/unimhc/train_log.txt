@@ -1,0 +1,20 @@
+[04:07:31] start: mixer=unimhc n_streams=4 params=10.75M device=cuda resume_iter=0 max_iters=1000
+[04:07:45] iter     0: train 4.1568, val 4.1652, lr 9.90e-06
+[04:08:20] iter   100: train 2.4567, val 2.4716, lr 1.00e-03
+[04:08:46] iter   200: checkpoint saved (372 ms/iter avg)
+[04:08:58] iter   200: train 2.1989, val 2.2481, lr 9.73e-04
+[04:09:33] iter   300: train 1.8629, val 1.9812, lr 8.95e-04
+[04:10:01] iter   400: checkpoint saved (373 ms/iter avg)
+[04:10:12] iter   400: train 1.6661, val 1.8166, lr 7.75e-04
+[04:10:51] iter   500: train 1.5342, val 1.7138, lr 6.28e-04
+[04:11:15] iter   600: checkpoint saved (372 ms/iter avg)
+[04:11:27] iter   600: train 1.4421, val 1.6412, lr 4.72e-04
+[04:12:05] iter   700: train 1.3743, val 1.5907, lr 3.25e-04
+[04:12:32] iter   800: checkpoint saved (376 ms/iter avg)
+[04:12:44] iter   800: train 1.3086, val 1.5424, lr 2.05e-04
+[04:13:23] iter   900: train 1.2689, val 1.5263, lr 1.27e-04
+[04:13:55] iter   999: train 1.2475, val 1.5043, lr 1.00e-04
+[04:13:56] iter  1000: checkpoint saved (384 ms/iter avg)
+[04:14:08] iter  1000: train 1.2481, val 1.5129, lr 1.00e-04
+[04:14:08] done: reached max_iters=1000, best_val=1.5043, final ckpt saved. total 396.5s this session
+[04:14:08] mixing report: worst row_err=7.15e-07 over 12 mixers -> mixing_report.json

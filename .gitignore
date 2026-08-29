@@ -1,0 +1,11 @@
+# Python
+__pycache__/
+*.pyc
+
+# training checkpoints (metrics/logs are committed; weights are not)
+*.pt
+
+# LaTeX build artifacts
+paper/main.aux
+paper/main.log
+paper/main.out
