@@ -97,6 +97,8 @@ def main():
     # manifold mixing
     p.add_argument("--mixer", default="unimhc", choices=["unimhc", "givens", "sinkhorn", "ortho"])
     p.add_argument("--n_streams", type=int, default=4)
+    p.add_argument("--dynamic_topology", action="store_true",
+                   help="paper-faithful dynamic HC/mHC annotations (supports mixer=unimhc|sinkhorn)")
     # data / model (nanoGPT shakespeare_char defaults)
     p.add_argument("--dataset", type=Path, default=Path("data/shakespeare_char"))
     p.add_argument("--block_size", type=int, default=256)
@@ -151,6 +153,7 @@ def main():
 
     model_args = dict(n_layer=args.n_layer, n_head=args.n_head, n_embd=args.n_embd,
                       block_size=args.block_size, bias=args.bias, vocab_size=vocab_size,
+                      dynamic_topology=args.dynamic_topology,
                       dropout=args.dropout, n_streams=args.n_streams, mixer=args.mixer)
     gptconf = GPTConfig(**model_args)
     model = GPT(gptconf).to(device)
