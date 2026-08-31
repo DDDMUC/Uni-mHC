@@ -53,8 +53,8 @@ On a controlled subtractive task ($Y=X_0-X_1$), non-negative baselines plateau a
 the theoretical floor $\tfrac12\operatorname{Var}(Y)\approx 0.99$ whereas Uni-mHC
 converges to $1.1\times10^{-11}$; the operator is also the fastest and
 constraint-exact of all compared parameterizations, and the identity-initialized
-four-stream topology---instantiated here with Uni-mHC---reaches $2.3\times$ lower
-validation loss than an identically trained vanilla GPT.
+four-stream topology reaches $2.3\times$ lower validation loss than an
+identically trained vanilla GPT.
 \end{abstract}
 
 \section{Introduction}
@@ -66,6 +66,10 @@ residual connection \citep{he2016resnet} to hyper-connections (HC)
 mixing matrix at every block boundary. Unconstrained mixing can amplify signal
 exponentially across depth, so mHC \citep{deepseek2025mhc} constrains it to the
 Birkhoff polytope of doubly stochastic matrices \citep{sinkhorn1964,idel2015sinkhorn}.
+Concurrent work explores this geometry---exact Birkhoff parameterization
+\citep{gomhc2026}, orthogonal mappings for dynamical isometry \citep{jpmhc2026},
+and Givens/Cayley branches found by agentic search \citep{cliffsearch2026}---but
+all keep readouts entrywise non-negative; subtraction stays exclusive to Uni-mHC.
 
 The Birkhoff constraint carries an expressivity tax: since $H_{jk}\ge 0$, every
 stream update is a convex combination---mixing can only \emph{add}, never
@@ -166,9 +170,8 @@ Unlike SK projection, which needs $T$ iterations and leaves a residual
 column-sum error (measured $5\times10^{-3}$ after $T=20$,
 Sec.~\ref{sec:exp-ops}), Theorem~\ref{thm:unistochastic} holds exactly by
 construction, and the operator costs one $n\times n$ complex linear solve; the
-Cayley map is a diffeomorphism onto a dense open subset of $\mathrm{U}(n)$, so
-the parameterization is lossless and smooth, and gradients (through
-\texttt{torch.linalg.solve} in \texttt{complex64}) were finite in all experiments.
+Cayley map is a diffeomorphism onto a dense open subset of $\mathrm{U}(n)$, and
+gradients through it were finite in all experiments.
 
 \begin{proposition}[Non-expansive heterodyne mixing]
 \label{prop:safety}
@@ -202,8 +205,9 @@ Theorem~\ref{thm:unistochastic} for every parameter value, including this one.
 \label{prop:floor}
 Let $X_0,\dots,X_{n-1}$ be i.i.d.\ zero-mean unit-variance and $Y = X_0 - X_1$.
 For any readout $c$ whose entries share a sign---the cone induced by every
-entrywise non-negative mixing row, including Sinkhorn/Birkhoff projections and
-orthostochastic readouts $Q\odot Q$---,
+entrywise non-negative mixing row, including Sinkhorn/Birkhoff projections,
+exact Birkhoff parameterizations \citep{gomhc2026}, and orthostochastic readouts
+$Q\odot Q$---,
 \begin{equation}
 \min_{c\,\mathrm{same\ sign}} \;\mathbb{E}\,\big\| \textstyle\sum\nolimits_k c_k X_k - Y \big\|^{2}
 \;=\; 1 \;=\; \tfrac{1}{2}\operatorname{Var}(Y).
@@ -222,10 +226,11 @@ $(c_0-1)^2 \ge 1$ already gives $\|c-t\|^2 \ge 1$. Hence the floor is $1$.
 
 The non-negativity of $S$ buys exact energy conservation but forbids subtraction
 (floor $\tfrac12\operatorname{Var}(Y)$); the heterodyne readout keeps the energy
-budget unistochastic while releasing the sign of the mixing---probabilities are
-additive and non-negative, whereas amplitudes interfere. An inverse-free special
+budget unistochastic while releasing the sign---probabilities are additive,
+whereas amplitudes interfere. An inverse-free special
 case replaces $U$ by $\tfrac{n(n-1)}{2}$ Givens rotations $Q$ ($S=Q\odot Q$), a
-$O(n^2)$-parameter unistochastic subfamily (Sec.~\ref{sec:exp-ops}).
+$O(n^2)$-parameter unistochastic subfamily (Sec.~\ref{sec:exp-ops}); such
+parameterizations trace back to unitary RNNs \citep{goru2017}.
 
 \section{Empirical Results}
 \label{sec:exp}
@@ -267,7 +272,7 @@ $4\times4$ complex solve instead of $20$ normalization sweeps
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.66\linewidth]{figs/fig_disentanglement.png}
+\includegraphics[width=0.55\linewidth]{figs/fig_disentanglement.png}
 \caption{\textbf{Subtractive disentanglement} ($Y = X_0 - X_1$). \textbf{(a)}
 Uni-mHC and GivensMHC reach machine precision; non-negative baselines plateau at
 the impossibility floor (Prop.~\ref{prop:floor}). \textbf{(b)} Learned
@@ -315,8 +320,8 @@ Mixer & final train loss & final val loss & ms/iter \\
 \end{table}
 
 At this scale the vanilla GPT overfits within the short horizon (train $0.11$,
-val $3.46$), while every manifold-constrained variant---whose identity-initialized
-stream topology warms up effective capacity gradually---holds val $\approx 1.51$.
+val $3.46$), while every constrained variant holds val $\approx 1.51$: the
+identity-initialized stream topology warms up capacity gradually.
 Stability is the second point: $12$ mixers $\times$ $1000$ steps with signed
 weights never destabilized training; post-training energy matrices violate double
 stochasticity by at most $7\times10^{-7}$, and all $12$ mixers discovered signed
@@ -330,19 +335,35 @@ unistochastic parameterization via a complex Cayley transform, keeping exact
 energy conservation and a non-expansive mixer while the heterodyne readout
 restores subtractive feature arithmetic through phase-$\pi$ destructive
 interference---impossible for entrywise non-negative mixers, as we prove, and
-verified empirically ($10^{-11}$ vs.\ $0.99$). Future work: token-conditional
-phases, scaling studies, and links to quantum circuit compilation.
+verified empirically ($10^{-11}$ vs.\ $0.99$). Future work: token-conditional phases and scaling studies.
 
 \begin{thebibliography}{9}
 
 \bibitem[DeepSeek-AI(2025)]{deepseek2025mhc}
 DeepSeek-AI.
 mHC: Manifold-constrained hyper-connections.
-\emph{arXiv preprint arXiv:2512.24880}, 2025.
+\emph{arXiv:2512.24880}, 2025.
 
 \bibitem[He et~al.(2016)]{he2016resnet}
 K.~He, X.~Zhang, S.~Ren, and J.~Sun.
 Deep residual learning for image recognition. In \emph{CVPR}, 2016.
+
+\bibitem[Dandachi and Diggs-Galligan(2026)]{gomhc2026}
+T.~Dandachi and S.~Diggs-Galligan.
+go-mHC: Direct parameterization of manifold-constrained hyper-connections via
+generalized orthostochastic matrices. arXiv:2604.02309, 2026.
+
+\bibitem[Sengupta et~al.(2026)]{jpmhc2026}
+B.~Sengupta, J.~Wang, and L.~Brunswic.
+JPmHC: Dynamical isometry via orthogonal hyper-connections. arXiv:2602.18308, 2026.
+
+\bibitem[CliffSearch(2026)]{cliffsearch2026}
+CliffSearch: Structured agentic co-evolution over theory and code for scientific
+algorithm discovery. arXiv:2604.01210, 2026.
+
+\bibitem[Jing et~al.(2017)]{goru2017}
+L.~Jing, C.~Gulcehre, J.~Peurifoy, et~al.
+Gated orthogonal recurrent units: On learning to forget. arXiv:1706.02761, 2017.
 
 \bibitem[Idel and Wolf(2015)]{idel2015sinkhorn}
 M.~Idel and M.~M. Wolf.
@@ -355,7 +376,7 @@ A.~Karpathy. nanoGPT. \url{https://github.com/karpathy/nanoGPT}, 2023.
 \bibitem[Liu et~al.(2026)]{shc2026}
 Z.~Liu, H.~Zhang, and A.~Li.
 Beyond the Birkhoff polytope: Spectral-sphere-constrained hyper-connections.
-\emph{arXiv preprint arXiv:2603.20896}, 2026.
+\emph{arXiv:2603.20896}, 2026.
 
 \bibitem[Sinkhorn(1964)]{sinkhorn1964}
 R.~Sinkhorn.
@@ -365,7 +386,7 @@ A relationship between arbitrary positive matrices and doubly stochastic matrice
 \bibitem[Zhu et~al.(2024)]{zhu2024hyperconnections}
 D.~Zhu, H.~Huang, Z.~Huang, Y.~Zeng, Y.~Mao, B.~Wu, Q.~Min, and X.~Zhou.
 Hyper-connections.
-\emph{arXiv preprint arXiv:2409.19606}, 2024.
+\emph{arXiv:2409.19606}, 2024.
 
 \end{thebibliography}
 
