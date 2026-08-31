@@ -40,8 +40,8 @@ Manifold-constrained hyper-connections (mHC) stabilize deep multi-stream residua
 training by projecting the inter-stream mixing matrix onto the Birkhoff polytope of
 doubly stochastic matrices via Sinkhorn--Knopp iterations. Entrywise
 non-negativity, however, restricts mixing to \emph{additive convex combinations}:
-features can never be subtracted, a limitation recently criticized in the
-signed-hyper-connections (sHC) line of work. We propose \textbf{Uni-mHC}, which
+features can never be subtracted, a limitation recently criticized by the
+spectral-sphere-constrained hyper-connections (sHC). We propose \textbf{Uni-mHC}, which
 lifts the constraint manifold from the Birkhoff polytope to the
 \emph{unistochastic} set: a complex Cayley transform of a skew-Hermitian parameter
 matrix yields a unitary $U$ whose modulus square $S=|U|\odot|U|$ is doubly
@@ -62,7 +62,7 @@ validation loss than an identically trained vanilla GPT.
 
 Residual streams are the backbone of modern deep networks, from the two-path
 residual connection \citep{he2016resnet} to hyper-connections (HC)
-\citep{lu2025hyperconnections}, which maintain $n$ parallel streams with a learned
+\citep{zhu2024hyperconnections}, which maintain $n$ parallel streams with a learned
 mixing matrix at every block boundary. Unconstrained mixing can amplify signal
 exponentially across depth, so mHC \citep{deepseek2025mhc} constrains it to the
 Birkhoff polytope of doubly stochastic matrices \citep{sinkhorn1964,idel2015sinkhorn}.
@@ -70,8 +70,9 @@ Birkhoff polytope of doubly stochastic matrices \citep{sinkhorn1964,idel2015sink
 The Birkhoff constraint carries an expressivity tax: since $H_{jk}\ge 0$, every
 stream update is a convex combination---mixing can only \emph{add}, never
 \emph{subtract}. The sHC critique \citep{shc2026} argues that this purely additive
-coupling pushes deep stacks toward identity degeneration; yet simply allowing
-negative entries abandons the energy-conservation guarantees that motivated mHC.
+coupling pushes deep stacks toward identity degeneration; yet sHC's spectral sphere
+only bounds worst-case amplification, giving up exact per-row/column energy
+bookkeeping.
 We resolve this dichotomy by moving from real to complex manifolds
 (Fig.~\ref{fig:schematic}): a complex Cayley transform gives a unitary $U$ whose
 $S=|U|^{\odot2}$ is \emph{exactly} doubly stochastic, while a heterodyne readout
@@ -230,7 +231,7 @@ $O(n^2)$-parameter unistochastic subfamily (Sec.~\ref{sec:exp-ops}).
 \label{sec:exp}
 
 All experiments: NVIDIA RTX~4060 Laptop GPU (8\,GB), PyTorch~2.x, WSL Ubuntu~24.04,
-stream width $n=4$.
+stream width $n=4$; all baselines are our re-implementations (official code was not used).
 
 \subsection{Operator precision and speed}
 \label{sec:exp-ops}
@@ -334,8 +335,10 @@ phases, scaling studies, and links to quantum circuit compilation.
 
 \begin{thebibliography}{9}
 
-\bibitem[DeepSeek(2025)]{deepseek2025mhc}
-DeepSeek. Manifold-constrained hyper-connections. Technical report, December 2025.
+\bibitem[DeepSeek-AI(2025)]{deepseek2025mhc}
+DeepSeek-AI.
+mHC: Manifold-constrained hyper-connections.
+\emph{arXiv preprint arXiv:2512.24880}, 2025.
 
 \bibitem[He et~al.(2016)]{he2016resnet}
 K.~He, X.~Zhang, S.~Ren, and J.~Sun.
@@ -349,19 +352,20 @@ Sinkhorn normal form for unitary matrices.
 \bibitem[Karpathy(2023)]{karpathy2023nanogpt}
 A.~Karpathy. nanoGPT. \url{https://github.com/karpathy/nanoGPT}, 2023.
 
-\bibitem[Lu et~al.(2025)]{lu2025hyperconnections}
-Z.~Lu, K.~Yang, X.~Zang, Y.~Dang, D.~Huang, C.~Wang, and Y.~Dong.
-Hyper-connections. \emph{arXiv preprint arXiv:2509.04798}, 2025.
-
-\bibitem[sHC(2026)]{shc2026}
-sHC authors.
-Signed hyper-connections: On the additive limitation of doubly stochastic stream
-mixing. \emph{arXiv preprint arXiv:2603.20896}, 2026.
+\bibitem[Liu et~al.(2026)]{shc2026}
+Z.~Liu, H.~Zhang, and A.~Li.
+Beyond the Birkhoff polytope: Spectral-sphere-constrained hyper-connections.
+\emph{arXiv preprint arXiv:2603.20896}, 2026.
 
 \bibitem[Sinkhorn(1964)]{sinkhorn1964}
 R.~Sinkhorn.
 A relationship between arbitrary positive matrices and doubly stochastic matrices.
 \emph{The Annals of Mathematical Statistics}, 35(2):876--879, 1964.
+
+\bibitem[Zhu et~al.(2024)]{zhu2024hyperconnections}
+D.~Zhu, H.~Huang, Z.~Huang, Y.~Zeng, Y.~Mao, B.~Wu, Q.~Min, and X.~Zhou.
+Hyper-connections.
+\emph{arXiv preprint arXiv:2409.19606}, 2024.
 
 \end{thebibliography}
 
