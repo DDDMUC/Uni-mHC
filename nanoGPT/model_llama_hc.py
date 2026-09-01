@@ -39,7 +39,7 @@ class LlamaHCConfig:
     n_embd: int = 384
     multiple_of: int = 64        # SwiGLU hidden dim rounding
     ffn_dim_multiplier: float = 1.0
-    rope_theta: float = 10000.0
+    rope_theta: float = 500000.0  # Llama 3 value (Llama 2 used 10000.0)
     dropout: float = 0.0
     n_streams: int = 4
     mixer: str = "unimhc"        # unimhc | givens | sinkhorn | ortho
@@ -58,8 +58,9 @@ class RMSNorm(nn.Module):
         self.weight = nn.Parameter(torch.ones(dim))
 
     def forward(self, x):
-        norm = x * torch.rsqrt(x.pow(2).mean(-1, keepdim=True) + self.eps)
-        return norm * self.weight
+        # float32 cast per reference implementations (matters under bf16/fp16 autocast)
+        norm = x.float() * torch.rsqrt(x.float().pow(2).mean(-1, keepdim=True) + self.eps)
+        return (norm * self.weight).type_as(x)
 
 
 def precompute_rope(head_dim: int, max_len: int, theta: float, device):
