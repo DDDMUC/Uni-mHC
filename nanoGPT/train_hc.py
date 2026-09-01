@@ -99,6 +99,10 @@ def main():
     p.add_argument("--n_streams", type=int, default=4)
     p.add_argument("--dynamic_topology", action="store_true",
                    help="paper-faithful dynamic HC/mHC annotations (supports mixer=unimhc|sinkhorn)")
+    p.add_argument("--arch", default="gpt2", choices=["gpt2", "llama"],
+                   help="gpt2: nanoGPT backbone; llama: Llama-3 style (RMSNorm/RoPE/SwiGLU/GQA)")
+    p.add_argument("--n_kv_heads", type=int, default=0,
+                   help="GQA kv heads for --arch=llama (0 -> n_head)")
     # data / model (nanoGPT shakespeare_char defaults)
     p.add_argument("--dataset", type=Path, default=Path("data/shakespeare_char"))
     p.add_argument("--block_size", type=int, default=256)
@@ -151,12 +155,19 @@ def main():
         meta = pickle.load(f)
     vocab_size = meta["vocab_size"]
 
-    model_args = dict(n_layer=args.n_layer, n_head=args.n_head, n_embd=args.n_embd,
-                      block_size=args.block_size, bias=args.bias, vocab_size=vocab_size,
-                      dynamic_topology=args.dynamic_topology,
-                      dropout=args.dropout, n_streams=args.n_streams, mixer=args.mixer)
-    gptconf = GPTConfig(**model_args)
-    model = GPT(gptconf).to(device)
+    if args.arch == "llama":
+        from model_llama_hc import LlamaHC, LlamaHCConfig
+        model_args = dict(n_layer=args.n_layer, n_head=args.n_head, n_embd=args.n_embd,
+                          block_size=args.block_size, vocab_size=vocab_size,
+                          n_kv_heads=args.n_kv_heads, dynamic_topology=args.dynamic_topology,
+                          dropout=args.dropout, n_streams=args.n_streams, mixer=args.mixer)
+        model = LlamaHC(LlamaHCConfig(**model_args)).to(device)
+    else:
+        model_args = dict(n_layer=args.n_layer, n_head=args.n_head, n_embd=args.n_embd,
+                          block_size=args.block_size, bias=args.bias, vocab_size=vocab_size,
+                          dynamic_topology=args.dynamic_topology,
+                          dropout=args.dropout, n_streams=args.n_streams, mixer=args.mixer)
+        model = GPT(GPTConfig(**model_args)).to(device)
 
     # resume bookkeeping ------------------------------------------------------
     iter_num = 0
