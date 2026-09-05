@@ -109,10 +109,9 @@ benchmarks, the disentanglement experiment, and a four-stream nanoGPT integratio
 \draw[arrow] (U.east) .. controls +(8mm,-2mm) and +(2mm,2mm) .. (W.north west);
 \draw[arrow] (phi.east) -- (W.south west);
 \end{tikzpicture}
-\caption{\textbf{Uni-mHC operator.} The complex Cayley transform of a
-skew-Hermitian $K$ is unitary; $S=|U|^{\odot2}$ is the doubly stochastic energy
-bookkeeping, while the heterodyne readout $W$ is the signed mixing applied to
-streams.}
+\caption{\textbf{Uni-mHC operator.} The Cayley transform of skew-Hermitian $K$ is
+unitary; $S=|U|^{\odot2}$ is the doubly stochastic bookkeeping, while readout $W$
+is the signed mixing applied to streams.}
 \label{fig:schematic}
 \end{figure}
 
@@ -169,17 +168,18 @@ unistochastic, hence doubly stochastic.
 Unlike SK projection, which needs $T$ iterations and leaves a residual
 column-sum error (measured $5\times10^{-3}$ after $T=20$,
 Sec.~\ref{sec:exp-ops}), Theorem~\ref{thm:unistochastic} holds exactly by
-construction, and the operator costs one $n\times n$ complex linear solve; the
-Cayley map is a diffeomorphism onto a dense open subset of $\mathrm{U}(n)$, and
-gradients through it were finite in all experiments.
+construction at the cost of one $n\times n$ complex linear solve
+(Cayley is a diffeomorphism onto a dense open subset of $\mathrm{U}(n)$);
+gradients were finite in all experiments.
 
 \begin{proposition}[Non-expansive heterodyne mixing]
 \label{prop:safety}
-Writing $U_{jk} = |U_{jk}|e^{i\theta_{jk}}$, we have
-$W_{jk} = |U_{jk}|\cos(\theta_{jk}+\phi_k)$, so $|W_{jk}| \le |U_{jk}|$ and
-$\sum_{k} W_{jk}^{2} \le \sum_{k} |U_{jk}|^{2} = 1$ for every row, whence
-$\|Wx\|_2 \le \|x\|_2$: mixing never amplifies energy, while individual weights
-become negative whenever a phase shifts by $\pi$ (destructive interference).
+Let $Z = U\operatorname{diag}(e^{i\phi})$, which is unitary as a product of
+unitaries, and $W = \operatorname{Re} Z$. For real $x$,
+$Wx = \operatorname{Re}(Zx)$, so
+$\|Wx\|_2^2 = \|\operatorname{Re}(Zx)\|_2^2 \le \|Zx\|_2^2 = \|x\|_2^2$:
+mixing never amplifies energy, while individual weights become negative
+whenever a relative phase shifts by $\pi$ (destructive interference).
 \end{proposition}
 
 \begin{theorem}[Exact subtractive disentanglement]
@@ -191,10 +191,11 @@ with readout gain $\sqrt{2}$ the layer computes $X_0 - X_1$ exactly.
 
 \begin{proof}
 Take $A$ with a single block $\big(\begin{smallmatrix}0&-a\\a&0\end{smallmatrix}\big)$,
-$a=\tan\tfrac{\pi}{4}$, $B=0$; the Cayley transform of a rotation generator is the
-rotation with $\tan\tfrac{\theta}{2}=a$, i.e.\ $\theta=\tfrac{\pi}{2}$, and row~0
-of $U = R(\theta)\oplus I_{n-2}$ is $\tfrac{1}{\sqrt2}(1,1,0,\dots,0)$ (sign of
-$a$ chosen accordingly). Set $\phi = (0,\pi,0,\dots,0)$. Then
+$a=\tan\tfrac{\pi}{8}=\sqrt{2}-1$, $B=0$; the Cayley transform of a rotation
+generator is the rotation with $\tan\tfrac{\theta}{2}=a$, i.e.\ $\theta=\tfrac{\pi}{4}$,
+and row~0 of $U = R(\theta)\oplus I_{n-2}$ is
+$\tfrac{1}{\sqrt2}(1,1,0,\dots,0)$ (sign of $a$ chosen accordingly). Set
+$\phi = (0,\pi,0,\dots,0)$. Then
 $W_{00} = \operatorname{Re}(U_{00}) = \tfrac{1}{\sqrt2}$ and
 $W_{01} = \operatorname{Re}(U_{01}e^{i\pi}) = -\tfrac{1}{\sqrt2}$; the other
 entries of row $0$ vanish. Doubly stochasticity of $S=|U|^{\odot2}$ holds by
@@ -272,12 +273,10 @@ $4\times4$ complex solve instead of $20$ normalization sweeps
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.55\linewidth]{figs/fig_disentanglement.png}
+\includegraphics[width=0.5\linewidth]{figs/fig_disentanglement.png}
 \caption{\textbf{Subtractive disentanglement} ($Y = X_0 - X_1$). \textbf{(a)}
-Uni-mHC and GivensMHC reach machine precision; non-negative baselines plateau at
-the impossibility floor (Prop.~\ref{prop:floor}). \textbf{(b)} Learned
-coefficients $\gamma W_{0k}$: phase interference yields the exact $(+1,-1,0,0)$
-pattern; non-negative mixers degenerate to a pure copy $(+1,0,0,0)$.}
+Uni-mHC converges to machine precision; baselines plateau at the floor.
+\textbf{(b)} Coefficients $\gamma W_{0k}$: exact $(+1,-1,0,0)$ vs.\ copy $(+1,0,0,0)$.}
 \label{fig:disent}
 \end{figure}
 
@@ -286,10 +285,12 @@ step and ask the mixing layer alone (shared learnable gain $\gamma$) to produce
 $\hat{y} = \gamma\sum_k W_{0k}X_k$ against $Y = X_0-X_1$; $800$ Adam steps.
 Figure~\ref{fig:disent}: Uni-mHC drives the loss to $\UniMHCToyLoss$ and GivensMHC
 to $\GivensToyLoss$ with coefficients $(+1.00,-1.00,0,0)$---the exact destructive
-interference pattern of Theorem~\ref{thm:subtraction}. Sinkhorn mHC and the
-orthostochastic baseline stall at $\SKToyLoss$ and $\OrthoToyLoss$ (floor: $1.0$),
-their best solution being the trivial copy $X_0$. All gradients were finite
-throughout, confirming stable complex autograd.
+interference pattern of Theorem~\ref{thm:subtraction}, whose exact construction
+already attains $\sim\!5\times10^{-32}$, so reachability exceeds learnability here.
+Sinkhorn mHC and the orthostochastic baseline stall at $\SKToyLoss$ and
+$\OrthoToyLoss$ (floor: $1.0$ in expectation; single estimates fluctuate
+$\pm2\sigma$), their best solution being the trivial copy $X_0$.
+All gradients were finite throughout, confirming stable complex autograd.
 
 \subsection{Language modeling with four residual streams}
 \label{sec:exp-gpt}
@@ -319,9 +320,8 @@ Mixer & final train loss & final val loss & ms/iter \\
 \end{tabular}
 \end{table}
 
-At this scale the vanilla GPT overfits within the short horizon (train $0.11$,
-val $3.46$), while every constrained variant holds val $\approx 1.51$: the
-identity-initialized stream topology warms up capacity gradually.
+At this scale the vanilla GPT overfits (train $0.11$, val $3.46$), while every
+constrained variant holds val $\approx 1.51$ (identity-initialized warm-up).
 Stability is the second point: $12$ mixers $\times$ $1000$ steps with signed
 weights never destabilized training; post-training energy matrices violate double
 stochasticity by at most $7\times10^{-7}$, and all $12$ mixers discovered signed
@@ -334,8 +334,10 @@ Uni-mHC replaces the projected doubly stochastic constraint of mHC with an exact
 unistochastic parameterization via a complex Cayley transform, keeping exact
 energy conservation and a non-expansive mixer while the heterodyne readout
 restores subtractive feature arithmetic through phase-$\pi$ destructive
-interference---impossible for entrywise non-negative mixers, as we prove, and
-verified empirically ($10^{-11}$ vs.\ $0.99$). Future work: token-conditional phases and scaling studies.
+interference---which no single non-negative linear mixing layer can match in one
+forward pass (Prop.~\ref{prop:floor}), however re-parameterized, as verified
+empirically ($10^{-11}$ vs.\ $0.99$). Future work: token-conditional phases
+and scaling studies.
 
 \begin{thebibliography}{9}
 
