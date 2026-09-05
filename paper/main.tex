@@ -41,14 +41,14 @@ training by projecting the inter-stream mixing matrix onto the Birkhoff polytope
 doubly stochastic matrices via Sinkhorn--Knopp iterations. Entrywise
 non-negativity, however, restricts mixing to \emph{additive convex combinations}:
 features can never be subtracted, a limitation recently criticized by the
-spectral-sphere-constrained hyper-connections (sHC). We propose \textbf{Uni-mHC}, which
-lifts the constraint manifold from the Birkhoff polytope to the
+spectral-sphere-constrained hyper-connections (sHC). We propose \textbf{Uni-mHC},
+lifting the constraint manifold from the Birkhoff polytope to the
 \emph{unistochastic} set: a complex Cayley transform of a skew-Hermitian parameter
 matrix yields a unitary $U$ whose modulus square $S=|U|\odot|U|$ is doubly
 stochastic \emph{by construction}---no projection, no iteration. Macroscopically
 $S$ preserves exact energy conservation; microscopically a heterodyne readout
-$W=\operatorname{Re}(Ue^{i\phi})$ admits negative effective weights through
-destructive (phase-$\pi$) interference while remaining row-wise non-expansive.
+$W=\operatorname{Re}(Ue^{i\phi})$ admits negative weights through destructive
+(phase-$\pi$) interference while staying row-wise non-expansive.
 On a controlled subtractive task ($Y=X_0-X_1$), non-negative baselines plateau at
 the theoretical floor $\tfrac12\operatorname{Var}(Y)\approx 0.99$ whereas Uni-mHC
 converges to $1.1\times10^{-11}$; the operator is also the fastest and
@@ -274,7 +274,7 @@ $4\times4$ complex solve instead of $20$ normalization sweeps
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.5\linewidth]{figs/fig_disentanglement.png}
-\caption{\textbf{Subtractive disentanglement} ($Y = X_0 - X_1$). \textbf{(a)}
+\caption{\small\textbf{Subtractive disentanglement} ($Y = X_0 - X_1$). \textbf{(a)}
 Uni-mHC converges to machine precision; baselines plateau at the floor.
 \textbf{(b)} Coefficients $\gamma W_{0k}$: exact $(+1,-1,0,0)$ vs.\ copy $(+1,0,0,0)$.}
 \label{fig:disent}
@@ -308,7 +308,9 @@ all runs resumable). Table~\ref{tab:gpt} reports final losses.
 \begin{table}[t]
 \centering
 \caption{\textbf{nanoGPT on \texttt{shakespeare\_char}} ($6$ layers, $4$ streams,
-$1000$ steps). Val loss: mean of $50$ eval batches; peak memory $<2.3$\,GB.}
+$1000$ steps). Val loss: mean of $50$ eval batches; peak memory $<2.3$\,GB.
+Vanilla timing omitted (stock timer mixes training with eval pauses;
+speed claim rests on Table~\ref{tab:ops}).}
 \label{tab:gpt}
 \small
 \begin{tabular}{lccc}
@@ -320,8 +322,8 @@ Mixer & final train loss & final val loss & ms/iter \\
 \end{tabular}
 \end{table}
 
-At this scale the vanilla GPT overfits (train $0.11$, val $3.46$), while every
-constrained variant holds val $\approx 1.51$ (identity-initialized warm-up).
+At this scale vanilla GPT overfits (train $0.11$, val $3.46$), while constrained
+variants hold val $\approx 1.51$ (identity-initialized warm-up).
 Stability is the second point: $12$ mixers $\times$ $1000$ steps with signed
 weights never destabilized training; post-training energy matrices violate double
 stochasticity by at most $7\times10^{-7}$, and all $12$ mixers discovered signed
@@ -334,10 +336,9 @@ Uni-mHC replaces the projected doubly stochastic constraint of mHC with an exact
 unistochastic parameterization via a complex Cayley transform, keeping exact
 energy conservation and a non-expansive mixer while the heterodyne readout
 restores subtractive feature arithmetic through phase-$\pi$ destructive
-interference---which no single non-negative linear mixing layer can match in one
-forward pass (Prop.~\ref{prop:floor}), however re-parameterized, as verified
-empirically ($10^{-11}$ vs.\ $0.99$). Future work: token-conditional phases
-and scaling studies.
+interference---unmatchable by any single non-negative linear mixing layer in one
+forward pass (Prop.~\ref{prop:floor}), as verified ($10^{-11}$ vs.\ $0.99$).
+Future work: token-conditional phases and scaling studies.
 
 \begin{thebibliography}{9}
 

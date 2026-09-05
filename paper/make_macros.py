@@ -39,25 +39,21 @@ for run, name in [("vanilla", "vanilla GPT (no HC)"), ("unimhc", "Uni-mHC (Ours)
                   ("ortho", "Orthostochastic")]:
     mf = runs / run / "metrics.jsonl"
     if run == "vanilla" and not mf.exists():
-        # nanoGPT train.py logs to stdout only: parse runs/vanilla.log
+        # nanoGPT train.py logs to stdout only: parse runs/vanilla.log.
+        # NOTE: the stock timer's per-line "time" mixes training with eval
+        # pauses, so vanilla has NO comparable ms/iter -> report None (em dash).
         vf = runs / "vanilla.log"
         if not vf.exists():
             continue
-        final, times = None, []
+        final = None
         for line in vf.read_text().splitlines():
             if line.startswith("step ") and "val loss" in line:
                 tr = float(line.split("train loss ")[1].split(",")[0])
                 va = float(line.split("val loss ")[1])
                 final = (tr, va)
-            elif line.startswith("iter "):
-                try:
-                    times.append(float(line.split("time ")[1].split("ms")[0]))
-                except (IndexError, ValueError):
-                    pass
         if final is None:
             continue
-        ms = sum(times[-50:]) / max(len(times[-50:]), 1)
-        gpt_rows.append((name, final[0], final[1], ms))
+        gpt_rows.append((name, final[0], final[1], None))
         continue
     last = None
     for line in mf.read_text().splitlines():
@@ -77,7 +73,8 @@ if gpt_rows:
     rows = []
     for name, tr, va, ms in gpt_rows:
         va_s = f"\\textbf{{{va:.3f}}}" if va == best_val else f"{va:.3f}"
-        rows.append(f"{name} & {tr:.3f} & {va_s} & {ms:.0f} \\\\")
+        ms_s = "---" if ms is None else f"{ms:.0f}"
+        rows.append(f"{name} & {tr:.3f} & {va_s} & {ms_s} \\\\")
     body = "\n".join(rows)
 else:
     body = "(training in progress) & -- & -- & -- \\\\"
